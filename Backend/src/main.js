@@ -18,7 +18,7 @@ import user_repository from "./repositories/user.repository.js";
 
 
 
-const PORT = 8080
+const PORT = ENVIRONMENT.PORT
 
 const app = express()
 
