@@ -38,8 +38,6 @@ workspace_router.post(
         console.log('[CREATE WORKSPACE]', request.user)
         const {name, description} = request.body
 
-
-
         const workspace_created = await workspace_repository.createWorkspace(name, description)
         const owner_membership = await member_repository.create(
             request.user.id,

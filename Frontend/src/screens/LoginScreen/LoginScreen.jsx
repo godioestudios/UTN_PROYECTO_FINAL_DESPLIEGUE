@@ -1,32 +1,47 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useForm from '../../hooks/useForm'
 import { login } from '../../services/authService'
+import useRequest from '../../hooks/useRequest'
+import {useNavigate} from 'react-router'
+
+/* 
+Siguiendo las practicas implementadas la conectar el formulario de login con nuesta API REST
+Desarrollar la implementacion del formulario de registro y la consulta a la API REST
+*/
 
 function LoginScreen() {
     
     const initial_state = {email: '', password: ''}
     const {formState, handleChangeInput} = useForm(initial_state)
-
-    /* Cuando consultemos tendremos este estado que estara guardando como se hace esa consulta (En que estado esta) */
-    const [apiResponse, setApiResponse] = useState({response: null, error: null, loading: false})
+    const {loading, response, error, sendRequest} = useRequest()
+    
+    const navigate = useNavigate()
+   
 
     async function handleSubmit (event){
         event.preventDefault()
+        sendRequest(
+            () => login(formState.email, formState.password)
+        )
         console.log('Usuario intenta iniciar sesion', formState)
-        try{
-            setApiResponse({loading: true, error: null, response: null})
-            const response = await login(formState.email, formState.password)
-            setApiResponse({loading: false, error: null, response: response})
-        }
-        catch (error){
-            //Si hubo fallo guardamos en el estado el mensaje de fallo
-            setApiResponse({loading: false, error: error.message, response: null})
-        }
-        
-
     }
 
-    console.log('[Estado de la consulta de login]:',apiResponse)
+    /* 
+    Los efectos sirven para controlar la recarga/ejecucion de una funcion
+
+    Cuando la response cambie/llegue:
+        - Guardar en localstorage el auth_token (para que luego podamos seguir usandolo)
+        - voy a redireccionar a /home
+    */
+    useEffect(
+        () => {
+            if(response && response.data){
+                localStorage.setItem('auth_token', response.data.auth_token)
+                navigate('/')
+            }
+        },
+        [response]
+    )
 
     
     
@@ -55,19 +70,23 @@ function LoginScreen() {
                     />
                 </div>
                 {
-                    apiResponse.error 
+                    error
                     && 
-                    !apiResponse.loading 
+                    !loading 
                     && 
-                    <span style={{color: 'red'}}>{apiResponse.error}</span>
+                    <span style={{color: 'red'}}>{error}</span>
                 }
 
                 {
-                    apiResponse.loading
+                    loading
                     ? <button type='submit' disabled={true} >Cargando...</button>
                     : <button type='submit'>Iniciar sesion</button>
                 }
                 
+
+                {
+                    response && !loading && <span style={{color: 'greenyellow'}}>Inicio de sesion exitoso</span>
+                }
             </form>
         </div>
     )
