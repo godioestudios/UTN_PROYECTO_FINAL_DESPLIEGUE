@@ -18,6 +18,7 @@ class MemberRepository {
     async updateRoleById(memberId, role) {
         const result = await Member.findByIdAndUpdate(memberId, { rol: role })
         console.log(result)
+        return result
     }
 
 

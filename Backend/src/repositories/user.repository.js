@@ -89,7 +89,7 @@ class UserRepository {
         })
         .limit(5)
 
-        return user
+        return result
     }
 
     
