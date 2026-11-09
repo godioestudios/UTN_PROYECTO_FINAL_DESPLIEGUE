@@ -15,7 +15,7 @@ class WorkspaceRepository {
     }
 
     async updateById(workspace_id, update_data){
-        await Workspace.findByIdAndUpdate(workspace_id, update_data)
+        return await Workspace.findByIdAndUpdate(workspace_id, update_data, { new: true })
     }
 }
 const workspace_repository = new WorkspaceRepository()

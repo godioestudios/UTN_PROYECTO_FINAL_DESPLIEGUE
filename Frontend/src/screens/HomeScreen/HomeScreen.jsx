@@ -1,6 +1,6 @@
 import WorkspaceList from '../../components/WorkspaceList/WorkspaceList'
 
-function HomeScreeen() {
+function HomeScreen() {
 
   
 
@@ -15,4 +15,4 @@ function HomeScreeen() {
   )
 }
 
-export default HomeScreeen
+export default HomeScreen

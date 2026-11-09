@@ -37,7 +37,7 @@ class MemberRepository {
         //Traer todas las membresias de un usuario
         const result = await Member
         .find({fk_id_usuario: user_id})
-        .select('role fecha_creacion fk_id_espacio_trabajo')
+        .select('rol fecha_creacion fk_id_espacio_trabajo')
         .populate(
             'fk_id_espacio_trabajo',
             'nombre fecha_creacion'
@@ -61,7 +61,7 @@ class MemberRepository {
         const result = await Member
         .find({fk_id_espacio_trabajo: workspace_id})
         .populate('fk_id_usuario', 'nombre email')
-        console.log(result)
+        return result
     }
 
     async getMembershipByUserAndWorkspace (user_id, workspace_id){

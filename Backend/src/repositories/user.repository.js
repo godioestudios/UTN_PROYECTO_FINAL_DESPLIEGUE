@@ -56,7 +56,7 @@ class UserRepository {
  
     //MONGO DB
     async get() {
-        const result = await User.find()
+        const result = await User.find().select('-password')
         return result
     }
 
@@ -95,7 +95,7 @@ class UserRepository {
     
     //MongoDB
    async getById (user_id){
-        const result = await User.findById(user_id)
+        const result = await User.findById(user_id).select('-password')
     
         return result
     }

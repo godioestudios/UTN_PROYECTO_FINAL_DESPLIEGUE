@@ -1,5 +1,5 @@
-import useWorkspaceList from "../../hooks/useWorkspaceList"
-
+import { Link } from 'react-router'
+import useWorkspaceList from '../../hooks/useWorkspaceList'
 
 export default function WorkspaceList() {
 
@@ -33,8 +33,8 @@ export default function WorkspaceList() {
     else {
         return <div>
             {workspaces_response.data.workspaces.map((workspace) => (
-                <Link key={workspace.id} to={`/workspace/${workspace._id}`}>
-                    {workspace.nombre}
+                <Link key={workspace.workspace_id} to={`/workspace/${workspace.workspace_id}`}>
+                    {workspace.workspace_nombre}
                 </Link>
             ))}
         </div>

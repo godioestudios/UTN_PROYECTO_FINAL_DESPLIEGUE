@@ -1,9 +1,9 @@
 import React from 'react'
 import { Route, Routes } from 'react-router'
-import HomeScreeen from './screens/HomeScreen/HomeScreeen'
+import HomeScreen from './screens/HomeScreen/HomeScreen'
 import LoginScreen from './screens/LoginScreen/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen'
-import AuthMiddleware from './Middlewares/AuthMiddleware'
+import AuthMiddleware from './middleware/auth.middleware'
 
 const App = () => {
   return (
@@ -12,11 +12,11 @@ const App = () => {
 
         <Route 
           path='/' 
-          element={<HomeScreeen/>}
+          element={<HomeScreen/>}
         />
         <Route 
           path='/home' 
-          element={<HomeScreeen/>}
+          element={<HomeScreen/>}
         />
 
       </Route>
