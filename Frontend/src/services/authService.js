@@ -55,3 +55,70 @@ export async function  register(username, email, password) {
     }
     return response_body
 }
+
+export async function verifyEmail(token) {
+    const response_http = await fetch(
+        API_URL + '/api/auth/verify-email/' + token
+    )
+    const response_body = await response_http.json()
+
+    if(!response_body.ok){
+        throw new Error(response_body.message)
+    }
+    return response_body
+}
+
+export async function resendVerificationEmail(email) {
+    const response_http = await fetch(
+        API_URL + '/api/auth/verify-email/' + encodeURIComponent(email) + '/resend'
+    )
+    const response_body = await response_http.json()
+
+    if(!response_body.ok){
+        throw new Error(response_body.message)
+    }
+    return response_body
+}
+
+export async function forgotPassword(email) {
+    const response_http = await fetch(
+        API_URL + '/api/auth/forgot-password',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        }
+    )
+    const response_body = await response_http.json()
+
+    if(!response_body.ok){
+        throw new Error(response_body.message)
+    }
+    return response_body
+}
+
+export async function resetPassword(reset_password_token, password) {
+    const response_http = await fetch(
+        API_URL + '/api/auth/reset-password',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify({
+                reset_password_token: reset_password_token,
+                password: password
+            })
+        }
+    )
+    const response_body = await response_http.json()
+
+    if(!response_body.ok){
+        throw new Error(response_body.message)
+    }
+    return response_body
+}

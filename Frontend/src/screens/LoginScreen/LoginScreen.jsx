@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router'
 import useForm from '../../hooks/useForm'
 import { login } from '../../services/authService'
 import useRequest from '../../hooks/useRequest'
-import {useNavigate} from 'react-router'
+import ServerMessage from '../../components/ServerMessage/ServerMessage'
+import styles from './LoginScreen.module.css'
 
 /* 
 Siguiendo las practicas implementadas la conectar el formulario de login con nuesta API REST
@@ -46,48 +48,59 @@ function LoginScreen() {
     
     
     return (
-        <div>
-            <h1>Inciar sesion</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input 
-                        name='email' 
-                        id='email' 
-                        type='email' 
-                        value={formState.email} 
-                        onChange={handleChangeInput} 
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input 
-                        name='password' 
-                        id='password' 
-                        type='password' 
-                        value={formState.password} 
-                        onChange={handleChangeInput} 
-                    />
-                </div>
-                {
-                    error
-                    && 
-                    !loading 
-                    && 
-                    <span style={{color: 'red'}}>{error}</span>
-                }
+        <div className={styles.page}>
+            <div className={styles.card}>
+                <span className={styles.logo}>slack</span>
+                <h1 className={styles.title}>Iniciar sesión</h1>
 
-                {
-                    loading
-                    ? <button type='submit' disabled={true} >Cargando...</button>
-                    : <button type='submit'>Iniciar sesion</button>
-                }
-                
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.field}>
+                        <label htmlFor="email">Correo electrónico</label>
+                        <input 
+                            className={styles.input}
+                            name='email' 
+                            id='email' 
+                            type='email' 
+                            autoComplete='email'
+                            value={formState.email} 
+                            onChange={handleChangeInput} 
+                        />
+                    </div>
+                    <div className={styles.field}>
+                        <label htmlFor="password">Contraseña</label>
+                        <input 
+                            className={styles.input}
+                            name='password' 
+                            id='password' 
+                            type='password' 
+                            autoComplete='current-password'
+                            value={formState.password} 
+                            onChange={handleChangeInput} 
+                        />
+                    </div>
 
-                {
-                    response && !loading && <span style={{color: 'greenyellow'}}>Inicio de sesion exitoso</span>
-                }
-            </form>
+                    <ServerMessage
+                        error={!loading && error}
+                        success={!loading && response && 'Inicio de sesion exitoso'}
+                    />
+
+                    <button className={styles.submit} type='submit' disabled={loading}>
+                        {loading ? 'Ingresando...' : 'Iniciar sesión'}
+                    </button>
+                </form>
+
+                <p className={styles.footer}>
+                    ¿No te llegó el mail de verificación? <Link to='/resend-email-verification'>Reenviar</Link>
+                </p>
+
+                <p className={styles.footer}>
+                    ¿Olvidaste tu contraseña? <Link to='/forgot-password'>Recuperar acceso</Link>
+                </p>
+
+                <p className={styles.footer}>
+                    ¿No tenés cuenta? <Link to='/register'>Registrate</Link>
+                </p>
+            </div>
         </div>
     )
 }

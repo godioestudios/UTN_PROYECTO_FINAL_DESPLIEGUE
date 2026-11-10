@@ -2,6 +2,7 @@ import React from 'react'
 import useForm from '../../hooks/useForm'
 import useRequest from '../../hooks/useRequest'
 import { register } from '../../services/authService'
+import ServerMessage from '../../components/ServerMessage/ServerMessage'
 function RegisterScreen() {
   const initial_state = { name: '', email: '', password: '' }
   const { formState, handleChangeInput } = useForm(initial_state)
@@ -48,20 +49,14 @@ function RegisterScreen() {
             onChange={handleChangeInput}
           />
         </div>
-        {
-          error
-          &&
-          !loading
-          &&
-          <span style={{ color: 'red' }}>{error}</span>
-        }
+        <ServerMessage
+          error={!loading && error}
+          success={!loading && response && 'Registro exitoso, revisa tu correo electronico para verificar la cuenta'}
+        />
         {
           loading
             ? <button type='submit' disabled={true} >Cargando...</button>
             : <button type='submit'>Registrarse</button>
-        }
-        {
-          response && !loading && <span style={{ color: 'greenyellow' }}>Registro exitoso, revisa tu correo electronico para verificar la cuenta</span>
         }
       </form>
     </div>

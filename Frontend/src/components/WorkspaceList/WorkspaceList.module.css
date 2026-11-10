@@ -1,0 +1,90 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
+
+.item:hover {
+  background: var(--brand-dark);
+  color: #fff;
+}
+
+.item:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
+.avatar {
+  display: grid;
+  flex: 0 0 26px;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.role {
+  font-size: 12px;
+  opacity: 0.7;
+  text-transform: capitalize;
+}
+
+.loading {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.empty {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.errorBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.retryButton {
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-sm);
+}
+
+.retryButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
