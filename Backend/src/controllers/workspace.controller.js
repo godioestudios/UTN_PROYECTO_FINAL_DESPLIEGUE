@@ -1,6 +1,7 @@
 import workspace_repository from "../repositories/workspace.repository.js"
 import member_repository from "../repositories/member.repository.js"
 import ServerError from "../utils/error.util.js"
+import channel_repository from "../repositories/channel.repository.js"
 
 export async function getAllWorkspaces(request, response) {
     const workspaces_obtenidos = await member_repository.getAllWorkspaceByUserId(request.user.id)
@@ -80,3 +81,29 @@ export async function updateWorkspace(request, response) {
         }
     })
 }
+
+
+export async function getAllMemberByWorkspaceId(request,response) {
+    const members_obtenidos = await member_repository.getAllMembershipsByWorkspaceId(request.workspace._id)
+    return response.status(200).send({
+        ok: true,
+        message: "Obtenidos todos los datos",
+        status: 200,
+        data: {
+            workspaces: members_obtenidos
+        }
+    })
+}
+
+export async function getAllChanelsByWorkspaceId(request,respone) {
+    const canales_obtenidos = await channel_repository.getAllChannelsByWorkpaceId(request.workspace._id)
+    return respone.status(200).send({
+        ok: true,
+        message : "Obtenidos todos los datos",
+        status: 200,
+        data:{
+            workspaces: canales_obtenidos
+        }
+    })
+}
+

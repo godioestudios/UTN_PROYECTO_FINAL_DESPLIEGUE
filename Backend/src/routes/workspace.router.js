@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 import authMiddleware from '../middlewares/auth.middleware.js'
 import workspaceMiddleware from '../middlewares/workspace.middleware.js'
 import {
@@ -6,12 +6,14 @@ import {
     createWorkspace,
     getWorkspaceById,
     deleteWorkspace,
-    updateWorkspace
+    updateWorkspace,
+    getAllMemberByWorkspaceId,
+    getAllChanelsByWorkspaceId
 } from '../controllers/workspace.controller.js'
 
 
-
 const workspace_router = express.Router()
+
 
 /* 
 (Authentified) GET /api/workspace
@@ -49,6 +51,21 @@ workspace_router.put(
     workspaceMiddleware(['owner', 'admin']),
     updateWorkspace
 )
+
+workspace_router.get(
+    "/:workspace_id/members",
+    authMiddleware,
+    workspaceMiddleware([]),
+    getAllMemberByWorkspaceId
+)
+
+workspace_router.get(
+    "/:workspace_id/channels/",
+    authMiddleware,
+    workspaceMiddleware(['owner']),
+    getAllChanelsByWorkspaceId
+)
+
 
 
 
