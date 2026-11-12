@@ -64,6 +64,27 @@ class MemberRepository {
         return result
     }
 
+    /* 
+    Lista de miembros de un workspace con su nombre y rol:
+        [{ member_id, nombre, rol }]
+    */
+    async getAllMembersNameAndRolByWorkspaceId(workspace_id){
+        const result = await Member
+        .find({fk_id_espacio_trabajo: workspace_id})
+        .select('rol fk_id_usuario')
+        .populate('fk_id_usuario', 'nombre')
+
+        return result.map(
+            membership => {
+                return {
+                    member_id: membership._id,
+                    nombre: membership.fk_id_usuario.nombre,
+                    rol: membership.rol
+                }
+            }
+        )
+    }
+
     async getMembershipByUserAndWorkspace (user_id, workspace_id){
         return await Member.findOne({fk_id_usuario:user_id, fk_id_espacio_trabajo: workspace_id })
     }

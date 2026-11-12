@@ -8,7 +8,7 @@ import {
     deleteWorkspace,
     updateWorkspace,
     getAllMemberByWorkspaceId,
-    getAllChanelsByWorkspaceId
+    
 } from '../controllers/workspace.controller.js'
 
 
@@ -57,13 +57,6 @@ workspace_router.get(
     authMiddleware,
     workspaceMiddleware([]),
     getAllMemberByWorkspaceId
-)
-
-workspace_router.get(
-    "/:workspace_id/channels/",
-    authMiddleware,
-    workspaceMiddleware(['owner']),
-    getAllChanelsByWorkspaceId
 )
 
 

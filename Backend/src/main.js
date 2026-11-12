@@ -10,6 +10,7 @@ import user_router from "./routes/user.router.js";
 import workspace_router from "./routes/workspace.router.js";
 import cors from 'cors'
 import ENVIRONMENT from "./config/environment.config.js";
+import channel_router from "./routes/channels.router.js";
 
 
 const PORT = ENVIRONMENT.PORT
@@ -36,6 +37,7 @@ app.use(express.json())
 app.use('/api/auth', auth_router)
 app.use('/api/users', user_router)
 app.use('/api/workspaces', workspace_router)
+app.use('/api/workspaces/:workspace_id/channels', channel_router)
 
 app.use(
     errorHandlerMiddleware

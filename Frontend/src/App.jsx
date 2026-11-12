@@ -1,13 +1,16 @@
 import React from 'react'
 import { Route, Routes } from 'react-router'
-import HomeScreen from './screens/HomeScreen/HomeScreen'
+import HomeScreeen from './screens/HomeScreen/HomeScreeen'
 import LoginScreen from './screens/LoginScreen/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen'
 import VerifyEmailScreen from './screens/VerifyEmailScreen/VerifyEmailScreen'
 import ResendEmailVerificationScreen from './screens/ResendEmailVerificationScreen/ResendEmailVerificationScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen/ForgotPasswordScreen'
 import ResetPasswordScreen from './screens/ResetPasswordScreen/ResetPasswordScreen'
-import AuthMiddleware from './middleware/auth.middleware'
+import CreateWorkspaceScreen from './screens/CreateWorkspaceScreen/CreateWorkspaceScreen'
+import WorkspaceScreen from './screens/WorkspaceScreen/WorkspaceScreen'
+import { WorkspaceProvider } from './Contexts/WorkspaceContext'
+import AuthMiddleware from './Middlewares/AuthMiddleware'
 
 const App = () => {
   return (
@@ -16,11 +19,23 @@ const App = () => {
 
         <Route 
           path='/' 
-          element={<HomeScreen/>}
+          element={<HomeScreeen/>}
         />
         <Route 
           path='/home' 
-          element={<HomeScreen/>}
+          element={<HomeScreeen/>}
+        />
+        <Route 
+          path='/workspaces/new' 
+          element={<CreateWorkspaceScreen/>}
+        />
+        <Route 
+          path='/workspace/:workspace_id' 
+          element={
+            <WorkspaceProvider>
+              <WorkspaceScreen/>
+            </WorkspaceProvider>
+          }
         />
 
       </Route>

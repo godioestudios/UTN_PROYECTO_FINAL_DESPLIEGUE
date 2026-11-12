@@ -12,6 +12,11 @@ class ChannelRepository {
         return result
     }
 
+    async findChannelById(channel_id){
+        const result = await Channel.findById(channel_id)
+        return result
+    }
+
     async deleteById(channel_id) {
         const result = await Channel.findByIdAndDelete(channel_id)
         return result
@@ -31,6 +36,8 @@ class ChannelRepository {
         const result = await Channel.find({ fk_id_espacio_trabajo: workspace_id })
         return result
     }
+
+
 }
 const channel_repository = new ChannelRepository()
 export default channel_repository

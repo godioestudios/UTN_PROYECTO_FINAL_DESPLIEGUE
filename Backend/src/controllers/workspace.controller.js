@@ -1,10 +1,8 @@
-import workspace_repository from "../repositories/workspace.repository.js"
-import member_repository from "../repositories/member.repository.js"
-import ServerError from "../utils/error.util.js"
-import channel_repository from "../repositories/channel.repository.js"
+import workspace_service from "../services/workspace.services.js"
+
 
 export async function getAllWorkspaces(request, response) {
-    const workspaces_obtenidos = await member_repository.getAllWorkspaceByUserId(request.user.id)
+    const workspaces_obtenidos = await workspace_service.getAllWorkspacesByUserId(request.user.id)
     return response.status(200).send({
         ok: true,
         message: "Obtenidos todos los datos",
@@ -17,12 +15,10 @@ export async function getAllWorkspaces(request, response) {
 
 export async function createWorkspace(request, response) {
     const { name, description } = request.body
-
-    const workspace_created = await workspace_repository.createWorkspace(name, description)
-    const owner_membership = await member_repository.create(
+    const { workspace_created, owner_membership } = await workspace_service.createWorkspace(
         request.user.id,
-        workspace_created._id,
-        'owner'
+        name,
+        description
     )
 
     return response.status(201).send({
@@ -48,8 +44,7 @@ export async function getWorkspaceById(request, response) {
 }
 
 export async function deleteWorkspace(request, response) {
-    await workspace_repository.deleteById(request.workspace._id)
-    await member_repository.deleteAllMembershipsByWorkspaceId(request.workspace._id)
+    await workspace_service.deleteWorkspace(request.workspace._id)
     return response.status(200).send({
         ok: true,
         message: "Workspace eliminado correctamente",
@@ -64,13 +59,10 @@ export async function updateWorkspace(request, response) {
     const { workspace_id } = request.params
     const { name, description } = request.body
 
-    if (!name || !description) {
-        throw new ServerError("name y description son campos requeridos", 400)
-    }
-
-    const workspace_updated = await workspace_repository.updateById(
+    const workspace_updated = await workspace_service.updateWorkspace(
         workspace_id,
-        { nombre: name, description }
+        name,
+        description
     )
     return response.status(200).send({
         ok: true,
@@ -83,8 +75,8 @@ export async function updateWorkspace(request, response) {
 }
 
 
-export async function getAllMemberByWorkspaceId(request,response) {
-    const members_obtenidos = await member_repository.getAllMembershipsByWorkspaceId(request.workspace._id)
+export async function getAllMemberByWorkspaceId(request, response) {
+    const members_obtenidos = await workspace_service.getAllMembersByWorkspaceId(request.workspace._id)
     return response.status(200).send({
         ok: true,
         message: "Obtenidos todos los datos",
@@ -94,16 +86,3 @@ export async function getAllMemberByWorkspaceId(request,response) {
         }
     })
 }
-
-export async function getAllChanelsByWorkspaceId(request,respone) {
-    const canales_obtenidos = await channel_repository.getAllChannelsByWorkpaceId(request.workspace._id)
-    return respone.status(200).send({
-        ok: true,
-        message : "Obtenidos todos los datos",
-        status: 200,
-        data:{
-            workspaces: canales_obtenidos
-        }
-    })
-}
-

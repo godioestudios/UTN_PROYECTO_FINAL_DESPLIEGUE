@@ -32,7 +32,7 @@ JSON.stringify sirve para transformar un Objeto de JS en un JSON
 */
 
 
-export async function  register(username, email, password) {
+export async function register(username, email, password) {
     const response_http = await fetch(
         API_URL + '/api/auth/register',
         {
@@ -56,9 +56,16 @@ export async function  register(username, email, password) {
     return response_body
 }
 
-export async function verifyEmail(token) {
+/* 
+Reenvio de verificacion: le pasamos el email al backend para que le re-cree
+el token y le envie devuelta el mail con el link de verificacion
+*/
+export async function resendEmailVerification(email) {
     const response_http = await fetch(
-        API_URL + '/api/auth/verify-email/' + token
+        API_URL + '/api/auth/verify-email/' + encodeURIComponent(email) + '/resend',
+        {
+            method: 'GET'
+        }
     )
     const response_body = await response_http.json()
 
@@ -68,9 +75,15 @@ export async function verifyEmail(token) {
     return response_body
 }
 
-export async function resendVerificationEmail(email) {
+/* 
+Verificamos el email enviando el token que llego por querystring desde el link del correo
+*/
+export async function verifyEmail(verification_token) {
     const response_http = await fetch(
-        API_URL + '/api/auth/verify-email/' + encodeURIComponent(email) + '/resend'
+        API_URL + '/api/auth/verify-email?verification_token=' + encodeURIComponent(verification_token),
+        {
+            method: 'GET'
+        }
     )
     const response_body = await response_http.json()
 
@@ -80,6 +93,10 @@ export async function resendVerificationEmail(email) {
     return response_body
 }
 
+/* 
+Solicitud de restablecimiento de contrasena: le pasamos el email al backend para que
+(cuando el usuario exista) le envie un mail con un link para crear una contrasena nueva
+*/
 export async function forgotPassword(email) {
     const response_http = await fetch(
         API_URL + '/api/auth/forgot-password',
@@ -101,7 +118,11 @@ export async function forgotPassword(email) {
     return response_body
 }
 
-export async function resetPassword(reset_password_token, password) {
+/* 
+Restablecimiento de contrasena: enviamos el reset_token que llego por querystring
+desde el link del mail junto con la nueva password
+*/
+export async function resetPassword(reset_token, password) {
     const response_http = await fetch(
         API_URL + '/api/auth/reset-password',
         {
@@ -110,7 +131,7 @@ export async function resetPassword(reset_password_token, password) {
                 'Content-Type': "application/json"
             },
             body: JSON.stringify({
-                reset_password_token: reset_password_token,
+                reset_token: reset_token,
                 password: password
             })
         }
